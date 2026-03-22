@@ -1,4 +1,8 @@
-const API_URL = 'http://localhost:5000/api/articles';
+// URL API (auto-détection local/production)
+const API_URL = window.location.hostname === 'localhost' 
+    ? 'http://localhost:5000/api/articles'
+    : '/api/articles';
+
 let currentEditId = null;
 
 // Charger les articles au démarrage

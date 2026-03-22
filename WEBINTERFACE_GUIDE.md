@@ -1,9 +1,5 @@
 # 🎨 Guide - Interface Web Blog API
 
-## ✅ Qu'est-ce qui a été créé?
-
-Votre Blog API a maintenant une **interface web moderne et intuitive**!
-
 ### Nouveaux fichiers:
 ```
 public/
