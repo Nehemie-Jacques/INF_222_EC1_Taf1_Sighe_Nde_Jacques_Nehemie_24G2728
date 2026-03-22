@@ -1,5 +1,5 @@
 const Article = require("../models/article.model");
-
+const mongoose = require("mongoose");
 
 // CREATE ARTICLE
 exports.createArticle = async (req, res) => {
@@ -7,8 +7,8 @@ exports.createArticle = async (req, res) => {
     const article = await Article.create(req.body);
 
     res.status(201).json({
-      message: "Article créé",
-      id: article._id,
+      message: "Article créé avec succès",
+      data: article,
     });
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -39,6 +39,10 @@ exports.getArticles = async (req, res) => {
 // GET ONE ARTICLE
 exports.getArticleById = async (req, res) => {
   try {
+    if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+      return res.status(400).json({ error: "ID invalide" });
+    }
+
     const article = await Article.findById(req.params.id);
 
     if (!article)
@@ -54,18 +58,22 @@ exports.getArticleById = async (req, res) => {
 // UPDATE
 exports.updateArticle = async (req, res) => {
   try {
+    if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+      return res.status(400).json({ error: "ID invalide" });
+    }
+
     const article = await Article.findByIdAndUpdate(
       req.params.id,
       req.body,
-      { new: true }
+      { new: true, runValidators: true }
     );
 
     if (!article)
       return res.status(404).json({ message: "Article non trouvé" });
 
     res.json({
-      message: "Article modifié",
-      article,
+      message: "Article modifié avec succès",
+      data: article,
     });
   } catch (error) {
     res.status(500).json({ error: error.message });
@@ -76,12 +84,16 @@ exports.updateArticle = async (req, res) => {
 // DELETE
 exports.deleteArticle = async (req, res) => {
   try {
+    if (!mongoose.Types.ObjectId.isValid(req.params.id)) {
+      return res.status(400).json({ error: "ID invalide" });
+    }
+
     const article = await Article.findByIdAndDelete(req.params.id);
 
     if (!article)
       return res.status(404).json({ message: "Article non trouvé" });
 
-    res.json({ message: "Article supprimé" });
+    res.json({ message: "Article supprimé avec succès", data: article });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -92,6 +104,10 @@ exports.deleteArticle = async (req, res) => {
 exports.searchArticles = async (req, res) => {
   try {
     const query = req.query.query;
+
+    if (!query) {
+      return res.status(400).json({ error: "Le paramètre 'query' est requis" });
+    }
 
     const articles = await Article.find({
       $or: [

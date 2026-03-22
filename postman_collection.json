@@ -1,0 +1,152 @@
+{
+  "info": {
+    "name": "Blog API - Tests Complets",
+    "description": "16 requêtes pour tester l'API Blog (validation, erreurs, recherche incluses)",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "✅ 1. Créer article (SUCCÈS)",
+      "request": {
+        "method": "POST",
+        "header": [{"key": "Content-Type","value": "application/json"}],
+        "body": {"mode": "raw","raw": "{\"titre\":\"Mon premier article\",\"contenu\":\"Contenu détaillé de l'article\",\"auteur\":\"Jean Dupont\",\"categorie\":\"Tech\",\"tags\":[\"nodejs\"]}"},
+        "url": {"raw": "http://localhost:5000/api/articles","protocol": "http","host": ["localhost"],"port": "5000","path": ["api","articles"]}
+      },
+      "response": [{"name": "201 Created","originalRequest": {"method": "POST"},"status": "Created","code": 201}]
+    },
+    {
+      "name": "❌ 2. Créer sans titre (VALIDATION ERREUR)",
+      "request": {
+        "method": "POST",
+        "header": [{"key": "Content-Type","value": "application/json"}],
+        "body": {"mode": "raw","raw": "{\"contenu\":\"Contenu\",\"auteur\":\"Jean\"}"},
+        "url": {"raw": "http://localhost:5000/api/articles","protocol": "http","host": ["localhost"],"port": "5000","path": ["api","articles"]}
+      },
+      "response": [{"name": "400 Bad Request - Titre manquant","status": "Bad Request","code": 400}]
+    },
+    {
+      "name": "❌ 3. Créer sans contenu (VALIDATION ERREUR)",
+      "request": {
+        "method": "POST",
+        "header": [{"key": "Content-Type","value": "application/json"}],
+        "body": {"mode": "raw","raw": "{\"titre\":\"Article\",\"auteur\":\"Jean\"}"},
+        "url": {"raw": "http://localhost:5000/api/articles","protocol": "http","host": ["localhost"],"port": "5000","path": ["api","articles"]}
+      }
+    },
+    {
+      "name": "❌ 4. Créer sans auteur (VALIDATION ERREUR)",
+      "request": {
+        "method": "POST",
+        "header": [{"key": "Content-Type","value": "application/json"}],
+        "body": {"mode": "raw","raw": "{\"titre\":\"Article\",\"contenu\":\"Contenu\"}"},
+        "url": {"raw": "http://localhost:5000/api/articles","protocol": "http","host": ["localhost"],"port": "5000","path": ["api","articles"]}
+      }
+    },
+    {
+      "name": "✅ 5. Lister tous les articles",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {"raw": "http://localhost:5000/api/articles","protocol": "http","host": ["localhost"],"port": "5000","path": ["api","articles"]}
+      }
+    },
+    {
+      "name": "✅ 6. Filtrer par catégorie",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {"raw": "http://localhost:5000/api/articles?categorie=Tech","protocol": "http","host": ["localhost"],"port": "5000","path": ["api","articles"],"query": [{"key": "categorie","value": "Tech"}]}
+      }
+    },
+    {
+      "name": "✅ 7. Filtrer par auteur",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {"raw": "http://localhost:5000/api/articles?auteur=Jean","protocol": "http","host": ["localhost"],"port": "5000","path": ["api","articles"],"query": [{"key": "auteur","value": "Jean"}]}
+      }
+    },
+    {
+      "name": "✅ 8. Rechercher articles",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {"raw": "http://localhost:5000/api/articles/search?query=article","protocol": "http","host": ["localhost"],"port": "5000","path": ["api","articles","search"],"query": [{"key": "query","value": "article"}]}
+      }
+    },
+    {
+      "name": "❌ 9. Recherche sans query (ERREUR)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {"raw": "http://localhost:5000/api/articles/search","protocol": "http","host": ["localhost"],"port": "5000","path": ["api","articles","search"]}
+      },
+      "response": [{"name": "400 Bad Request","status": "Bad Request","code": 400}]
+    },
+    {
+      "name": "✅ 10. Obtenir un article (remplacer ID)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {"raw": "http://localhost:5000/api/articles/507f1f77bcf86cd799439011","protocol": "http","host": ["localhost"],"port": "5000","path": ["api","articles","507f1f77bcf86cd799439011"]}
+      }
+    },
+    {
+      "name": "❌ 11. Obtenir article (ID invalide)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {"raw": "http://localhost:5000/api/articles/invalid","protocol": "http","host": ["localhost"],"port": "5000","path": ["api","articles","invalid"]}
+      },
+      "response": [{"name": "400 Bad Request - ID invalide","status": "Bad Request","code": 400}]
+    },
+    {
+      "name": "❌ 12. Obtenir article (inexistant)",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {"raw": "http://localhost:5000/api/articles/507f1f77bcf86cd799439099","protocol": "http","host": ["localhost"],"port": "5000","path": ["api","articles","507f1f77bcf86cd799439099"]}
+      },
+      "response": [{"name": "404 Not Found","status": "Not Found","code": 404}]
+    },
+    {
+      "name": "✅ 13. Modifier article (remplacer ID)",
+      "request": {
+        "method": "PUT",
+        "header": [{"key": "Content-Type","value": "application/json"}],
+        "body": {"mode": "raw","raw": "{\"titre\":\"Titre modifié\",\"contenu\":\"Contenu modifié\",\"auteur\":\"Jean\"}"},
+        "url": {"raw": "http://localhost:5000/api/articles/507f1f77bcf86cd799439011","protocol": "http","host": ["localhost"],"port": "5000","path": ["api","articles","507f1f77bcf86cd799439011"]}
+      }
+    },
+    {
+      "name": "❌ 14. Modifier (titre vide - VALIDATION ERREUR)",
+      "request": {
+        "method": "PUT",
+        "header": [{"key": "Content-Type","value": "application/json"}],
+        "body": {"mode": "raw","raw": "{\"titre\":\"\",\"contenu\":\"Contenu\",\"auteur\":\"Jean\"}"},
+        "url": {"raw": "http://localhost:5000/api/articles/507f1f77bcf86cd799439011","protocol": "http","host": ["localhost"],"port": "5000","path": ["api","articles","507f1f77bcf86cd799439011"]}
+      }
+    },
+    {
+      "name": "✅ 15. Supprimer article (remplacer ID)",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {"raw": "http://localhost:5000/api/articles/507f1f77bcf86cd799439011","protocol": "http","host": ["localhost"],"port": "5000","path": ["api","articles","507f1f77bcf86cd799439011"]}
+      }
+    },
+    {
+      "name": "❌ 16. Supprimer (ID invalide)",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {"raw": "http://localhost:5000/api/articles/invalid","protocol": "http","host": ["localhost"],"port": "5000","path": ["api","articles","invalid"]}
+      },
+      "response": [{"name": "400 Bad Request","status": "Bad Request","code": 400}]
+    }
+  ],
+  "variable": [
+    {"key": "base_url","value": "http://localhost:5000"}
+  ]
+}
