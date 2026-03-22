@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>📝 Blog - Gestion d'Articles</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📝 Blog API - Interface Simple</h1>
+            <p>Créez, modifiez et supprimez des articles</p>
+        </header>
+
+        <main>
+            <!-- Formulaire de création/modification -->
+            <section class="form-section">
+                <h2>✍️ Nouvel Article</h2>
+                <form id="articleForm">
+                    <input 
+                        type="text" 
+                        id="titre" 
+                        placeholder="📌 Titre de l'article" 
+                        required
+                    >
+                    <textarea 
+                        id="contenu" 
+                        placeholder="📄 Contenu de l'article..." 
+                        rows="5" 
+                        required
+                    ></textarea>
+                    <input 
+                        type="text" 
+                        id="auteur" 
+                        placeholder="✍️ Auteur" 
+                        required
+                    >
+                    <input 
+                        type="text" 
+                        id="categorie" 
+                        placeholder="🏷️ Catégorie (optionnel)"
+                    >
+                    <input 
+                        type="text" 
+                        id="tags" 
+                        placeholder="🔖 Tags séparés par des virgules (optionnel)"
+                    >
+                    <button type="submit" id="submitBtn">➕ Créer l'article</button>
+                </form>
+                <div id="formMessage" class="message"></div>
+            </section>
+
+            <!-- Section recherche -->
+            <section class="search-section">
+                <h2>🔍 Recherche & Filtres</h2>
+                <div class="search-controls">
+                    <input 
+                        type="text" 
+                        id="searchQuery" 
+                        placeholder="Rechercher par titre ou contenu..." 
+                    >
+                    <button onclick="search()" class="btn-search">🔍 Rechercher</button>
+                    <button onclick="loadArticles()" class="btn-reset">↺ Tous les articles</button>
+                </div>
+            </section>
+
+            <!-- Liste des articles -->
+            <section class="articles-section">
+                <h2>📚 Articles</h2>
+                <div id="articlesContainer" class="articles-grid">
+                    <p class="loading">⏳ Chargement...</p>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <p>🚀 Blog API | API REST avec Node.js + Express + MongoDB</p>
+        </footer>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
